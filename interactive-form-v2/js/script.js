@@ -6,11 +6,13 @@ const nameInput = document.getElementById('name');
 const jobRoleInput = document.getElementById('title');
 const otherInput = document.getElementById('other-title');
 const colorSelect = document.getElementById('color');
-const colorSelectDefault = document.createElement('option');
+const colorSelectDefault = document.createElement('option',);
 colorSelectDefault.value = "default";
 colorSelectDefault.text = 'Please select a T-shirt theme';
 colorSelectDefault.style.display = "block";
 const designSelect = document.getElementById('design');
+const activities = document.querySelector('fieldset.activities');
+
 
 
 // Call functions and set up page.
@@ -84,6 +86,16 @@ designSelect.addEventListener('click', (e) => {
         colorSelect.value = 'default';
         for (let i = 0; i < colorSelect.children.length; i++) {
             hideItem(colorSelect[i]);
+        }
+    }
+});
+
+activities.addEventListener('change', (e) => {
+    let selectedTime = e.target['datadayandtime']
+    console.log(selectedTime);
+    for (let i = 1; i < activities.children.length; i++) {
+        if (e.target.checked) {
+            
         }
     }
 });
