@@ -11,8 +11,12 @@ colorSelectDefault.value = "default";
 colorSelectDefault.text = 'Please select a T-shirt theme';
 colorSelectDefault.style.display = "block";
 const designSelect = document.getElementById('design');
-const activities = document.querySelector('fieldset.activities');
-
+const activitiesList = document.querySelector('fieldset.activities');
+const activities = activitiesList.children;
+let costText =document.createElement('p');
+costText.id = 'cost-text';
+activitiesList.appendChild(costText);
+costText = document.getElementById('cost-text');
 
 
 // Call functions and set up page.
@@ -90,12 +94,47 @@ designSelect.addEventListener('click', (e) => {
     }
 });
 
-activities.addEventListener('change', (e) => {
-    let selectedTime = e.target['datadayandtime']
+
+// I learned how to grey out from here: https://stackoverflow.com/questions/5081690/how-to-gray-out-a-html-element
+// Create an event listener to grey out activities that interfere with the currently selected ones.
+// Display the total cost of the conference.
+activitiesList.addEventListener('change', (e) => {
+    let selectedTime = e.target.getAttribute('data-day-and-time');
+    let totalCost = 0;
+
     console.log(selectedTime);
-    for (let i = 1; i < activities.children.length; i++) {
-        if (e.target.checked) {
-            
+
+    if (e.target.checked) {
+        for (let i = 0; i < activities.length; i++) {
+            if (activities[i].firstElementChild !== null) {
+                let choice = activities[i].firstElementChild;
+                if (selectedTime === choice.getAttribute('data-day-and-time')) {
+                    choice.disabled = true;
+                    choice.parentElement.style.opacity = .6;
+                }
+            }
+        }
+    } else {
+        for (let i = 0; i < activities.length; i++) {
+            if (activities[i].firstElementChild !== null) {
+                let choice = activities[i].firstElementChild;
+                if (selectedTime === choice.getAttribute('data-day-and-time')) {
+                    choice.disabled = false;
+                    choice.parentElement.style.opacity = 1;
+                }
+            }
         }
     }
+    e.target.parentElement.style.opacity = 1;
+    e.target.disabled = false;
+
+    for (let i = 0; i < activities.length; i++) {
+        if (activities[i].firstElementChild !== null) {
+            if (activities[i].firstElementChild.checked) {
+                totalCost += parseInt(activities[i].firstElementChild.getAttribute('data-cost'));
+            }
+        }
+    }
+    
+    costText.textContent = `Total: $${totalCost}`;
 });
