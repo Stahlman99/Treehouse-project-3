@@ -15,9 +15,9 @@ button {
 }
 
 body {
-  font: 1em/1.5;
-  color: rgba(6, 49, 68, 0.9);
-	background: #CDE0FB;
+	font: 1em/1.5;
+	color: #173e43;
+	background: #3fb0ac;
 }
 
 header {
@@ -26,12 +26,17 @@ header {
 
 h1 {
 	font-size: 2.5em;
-	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.85);
+	color: #173e43;
+	text-shadow: 0 1px 0 #fae596;
 	margin: 0;
 }
 
 a {
   text-decoration: none;
+}
+
+p {
+	color: #173e43;
 }
 
 /* ================================= 
@@ -40,32 +45,35 @@ a {
 
 form {
 	padding: .875em 1.875em 1.875em;
-	background: #9BBEEF;
-	border: 2px solid rgba(8, 63, 87, 0.6);
+	background: #dddfd4;
+	border: 2px solid #173e43;
 	border-radius: 3px;
 }
 
 fieldset,
 legend,
 button {
-	padding: 0;
+	color: #173e43;
 	border: none;
 }
 
 fieldset {
+	padding: 1;
 	margin-top: 1.5em;
+	border-top: 2px solid #173e43;
 }
 
 legend,
 button {
-	font-size: 1.25em;	
+	font-size: 1.25em;
+	padding: 0;
 }
 
 legend {
 	font-weight: bold;
 	padding-top: .5em;
-	border-top: 2px solid rgba(8, 63, 87, 0.6);
 	margin-bottom: 1.125em;
+	float: left;
 }
 
 input[type="text"],
@@ -82,7 +90,7 @@ label {
 
 input,
 select {
-	margin-bottom: 1.125em;	
+	margin-bottom: 1.125em;
 }
 
 input {
@@ -90,14 +98,14 @@ input {
 	font-weight: 500;
 	padding: .8em;
 	background: #e9f6fb;
-	border: 2px solid rgb(111, 157, 220);
+	border: 2px solid #173e43;
 	border-radius: 3px;
 	outline: none;
 }
 
 input:focus {
 	background: #fff;
-	border-color: #5e97b0;
+	border-color: #3fb0ac;
 	transition: border-color .4s, background-color .4s;
 }
 
@@ -107,9 +115,9 @@ input[type="radio"] {
 }
 
 button {
-	color: #fff;
+	color: #fae596;
 	padding: .55em 1.25em;
-	background: #083f57;
+	background: #173e43;
 	margin: 1.25em 0 .5em;
 	cursor: pointer;
 	border: 2px solid black;
@@ -119,6 +127,7 @@ button {
 
 button:hover {
 	background: #6F9DDC;
+	padding: 15px 35px;
 }
 
 input, 
@@ -162,7 +171,7 @@ option {
 	margin-top: 10px;
 	margin-bottom: 10px;
 	padding: 5px;
-	background: rgba(255, 255, 255, 0.1);
+	background: rgba(255, 255, 255, 0.349);
 	border-radius: 4px;
 }
 
