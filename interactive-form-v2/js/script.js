@@ -1,44 +1,62 @@
-// Variable Declarations
+
+/*
+Variable Declarations
+*/
 
 
-// Prepare variables
+// Access input fields and store them in variables.
 const nameInput = document.getElementById('name');
 const emailInput = document.getElementById('mail');
 const jobRoleInput = document.getElementById('title');
 const otherInput = document.getElementById('other-title');
-
-
-const colorSelectDefault = document.createElement('option');
-colorSelectDefault.value = "default";
-colorSelectDefault.text = 'Please select a T-shirt theme';
-colorSelectDefault.style.display = "block";
-const colorSelect = document.getElementById('color');
-colorSelect.insertAdjacentElement("afterbegin",colorSelectDefault);
-colorSelect.value = "default";
-const shirtColorDiv = document.getElementById('shirt-colors');
-shirtColorDiv.style.display = 'none';
-
-const designSelect = document.getElementById('design');
-designSelect.firstElementChild.disabled = true;
-
-const activitiesList = document.querySelector('fieldset.activities');
-activitiesList.style.border = '2px solid #173e43';
-const activities = activitiesList.children;
-let costText = document.createElement('p');
-costText.id = 'cost-text';
-activitiesList.appendChild(costText);
-costText = document.getElementById('cost-text');
-
-const paymentSelect = document.getElementById('payment');
-
-const cardDiv = document.querySelector('div.credit-card');
 const cardNumInput = document.getElementById('cc-num');
 const zipInput = document.getElementById('zip');
 const cvvInput = document.getElementById('cvv');
 
+// Set up the color select's default text option.
+const colorSelectDefault = document.createElement('option');
+colorSelectDefault.value = "default";
+colorSelectDefault.text = 'Please select a T-shirt theme';
+colorSelectDefault.style.display = "block";
+
+// Declare and set the color selection.
+const colorSelect = document.getElementById('color');
+colorSelect.insertAdjacentElement("afterbegin",colorSelectDefault);
+colorSelect.value = "default";
+
+// Hide the color options and label until a design is selected.
+const shirtColorDiv = document.getElementById('shirt-colors');
+shirtColorDiv.style.display = 'none';
+
+// Declare and set up the design select element
+const designSelect = document.getElementById('design');
+designSelect.firstElementChild.disabled = true;
+
+// Create the activitiesList variable to hold the fieldset containing the
+//activites checkboxes, labels, and costText element.
+const activitiesList = document.querySelector('fieldset.activities');
+activitiesList.style.border = '2px solid #173e43';
+
+// The activies contained in the fieldset (as well as the legend and costText element).
+const activities = activitiesList.children;
+
+// Create the costText element.
+// This will display the total cost of the chosen activies, or the error message if none are chosen.
+let costText = document.createElement('p');
+costText.id = 'cost-text';
+activitiesList.appendChild(costText);
+
+// Create the paymentSelect variable to hold the payment options selector.
+const paymentSelect = document.getElementById('payment');
+
+// The div containing the input elements for the credit card info.
+const cardDiv = document.querySelector('div.credit-card');
+
+//
 const paypalDiv = document.querySelector('div.paypal');
 const bitcoinDiv = document.querySelector('div.bitcoin');
 
+// Booleans that signify whether the input options contain satisfactory answers.
 let isNameValid = true;
 let isEmailValid = true;
 let isActivityValid = true;
@@ -46,16 +64,28 @@ let isCardValid = true;
 let isZipValid = true;
 let isCvvValid = true;
 
+// The submit button for the form.
 const submitBtn = document.querySelector('button');
 
+// Create email error message.
+const emailError = document.createElement('p');
+emailError.id = 'email-error';
+emailError.style.color = 'red';
 
-// Call functions and set up page.
+// Add the email error message to the form.
+emailInput.parentElement.insertBefore(emailError, emailInput);
 
 
-// Sets the focus on the nameInput
+
+/*
+Set up page.
+*/
+
+
+// Sets the focus on the nameInput.
 nameInput.focus();
 
-// Hide select and input fields
+// Hide select and input fields.
 hideItem(otherInput);
 
 // Hide default colorSelect options.
@@ -66,29 +96,33 @@ for (let i = 0; i < colorSelect.length; i++) {
 // Set 'credit card' as the default value of the selector.
 paymentSelect.value = 'credit card';
 paymentSelect.firstElementChild.disabled = true;
-// hide the paypal and bitcoin divs.
+
+// Hide the paypal and bitcoin divs.
 hideItem(paypalDiv);
 hideItem(bitcoinDiv);
 
-// Functions
+
+/*
+Functions
+*/
 
 
-// Creates function to display elements
+// Displays an element.
 function displayItem(itemToDisplay) {
     itemToDisplay.style.display = 'block';
 }
 
-// Creates function to hide elements
+// Hides an element.
 function hideItem(itemToDisplay) {
     itemToDisplay.style.display = 'none';
 }
 
-// Visually display an error on the element
+// Visually displays an error on the element.
 function isInvalid (element) {
     element.style.borderColor = "red";
 }
 
-// Clear any visual error displays
+// Clear any visual error displays.
 function isValid (element) {
     element.style.borderColor = '#173e43';
 }
@@ -113,9 +147,15 @@ function validateEmail () {
     if (/[^@]+@[^@.]+\.[a-z]/i.test(emailAddress)) {
         isValid(emailInput);
         isEmailValid = true;
+        emailError.textContent = '';
+    }  else if (!(emailAddress.length > 0)) {
+        isInvalid(emailInput);
+        isEmailValid = false;
+        emailError.textContent = 'Field is empty.';
     } else {
         isInvalid(emailInput);
         isEmailValid = false;
+        emailError.textContent = 'Email is not a valid format.';
     }
 }
 
@@ -142,57 +182,75 @@ function validateActivities () {
     }
 }
 
-//
+// Determines if the card number is valid and then displays the appropriate warnings if not.
 function validateCard () {
 
+    isValid(cardNumInput);
+    isCardValid = true;
+
     if (paymentSelect.value === 'credit card') {
-        if (/^\d{13,16}$/.test(cardNumInput.value)) {
-            isValid(cardNumInput);
-            isCardValid = true;
-        } else {
+        if (!/^\d{13,16}$/.test(cardNumInput.value)) {
             isInvalid(cardNumInput);
             isCardValid = false;
         }
     }
 }
 
+// Determines if the zip code is valid and then displays the appropriate warnings if not.
 function validateZip () {
 
+    isValid(zipInput);
+    isZipValid= true;
+
     if (paymentSelect.value === 'credit card') {
-        if (/^\d{5}$/.test(zipInput.value)) {
-            isValid(zipInput);
-            isZipValid= true;
-        } else {
+        if (!/^\d{5}$/.test(zipInput.value)) {
             isInvalid(zipInput);
             isZipValid = false;
         }
     }
 }
 
+// Determines if the cvv is valid and then displays the appropriate warnings if not.
 function validateCVV () {
 
+        isValid(cvvInput);
+        isCvvValid = true;
+    
     if (paymentSelect.value === 'credit card') {
-        if (/^\d{3}$/.test(cvvInput.value)) {
-            isValid(cvvInput);
-            isCvvValid = true;
-        } else {
+        if (!/^\d{3}$/.test(cvvInput.value)){
             isInvalid(cvvInput);
             isCvvValid = false;
         }
     }
 }
 
+// Generates a repeated section of code that only had two differences. It carries out the greying of items.
+function createGreyOut (dateTime, bool, opaqueVal) {
+    for (let i = 0; i < activities.length; i++) {
+        if (activities[i].firstElementChild !== null) {
+            let choice = activities[i].firstElementChild;
+            if (dateTime === choice.getAttribute('data-day-and-time')) {
+                choice.disabled = bool;
+                choice.parentElement.style.opacity = opaqueVal;
+            }
+        }
+    }
+}
 
-// Event Listeners
+
+/*
+Event Listeners
+*/
 
 
-// Create event listener for the jobRoleInput and reveal the otherInput field when 'other' is selected.
+// An event listener for the jobRoleInput - Reveals the otherInput field when 'other' is selected.
 jobRoleInput.addEventListener('change', (e) => {
     if (e.target.value === 'other') {
         displayItem(otherInput);
     }
 });
 
+// An event listener for the designSelect - Displays the color options corresponding to the chosen design.
 designSelect.addEventListener('change', (e) => {
     shirtColorDiv.style.display = 'block';
     if (e.target.value === 'js puns') {
@@ -226,34 +284,17 @@ designSelect.addEventListener('change', (e) => {
     }
 });
 
-
 // I learned how to grey out from here: https://stackoverflow.com/questions/5081690/how-to-gray-out-a-html-element
-// Create an event listener to grey out activities that interfere with the currently selected ones.
-// Display the total cost of the conference.
+// An event listener for activitiesList - Grey out activities that interfere with the currently selected ones.
+// It also displays the total cost of the conference.
 activitiesList.addEventListener('change', (e) => {
     let selectedTime = e.target.getAttribute('data-day-and-time');
     let totalCost = 0;
 
     if (e.target.checked) {
-        for (let i = 0; i < activities.length; i++) {
-            if (activities[i].firstElementChild !== null) {
-                let choice = activities[i].firstElementChild;
-                if (selectedTime === choice.getAttribute('data-day-and-time')) {
-                    choice.disabled = true;
-                    choice.parentElement.style.opacity = .6;
-                }
-            }
-        }
+        createGreyOut(selectedTime, true, .6);
     } else {
-        for (let i = 0; i < activities.length; i++) {
-            if (activities[i].firstElementChild !== null) {
-                let choice = activities[i].firstElementChild;
-                if (selectedTime === choice.getAttribute('data-day-and-time')) {
-                    choice.disabled = false;
-                    choice.parentElement.style.opacity = 1;
-                }
-            }
-        }
+        createGreyOut(selectedTime, false, 1);
     }
     e.target.parentElement.style.opacity = 1;
     e.target.disabled = false;
@@ -271,7 +312,7 @@ activitiesList.addEventListener('change', (e) => {
     validateActivities();
 });
 
-// Displays the correct div element based on the payment selection
+// An event listener for the paymentSelect - Displays the correct div element based on the payment selection.
 paymentSelect.addEventListener('change', (e) => {
     if (paymentSelect.value === 'bitcoin') {
         hideItem(paypalDiv);
@@ -288,6 +329,7 @@ paymentSelect.addEventListener('change', (e) => {
     }
 })
 
+// The event listeners that add the error validation functions as result of change to the inputs.
 nameInput.addEventListener('keyup', (e) => {validateName()});
 nameInput.addEventListener('focusout', (e) => {validateName()});
 emailInput.addEventListener('keyup', (e) => {validateEmail()});
@@ -300,8 +342,8 @@ zipInput.addEventListener('focusout', (e) => {validateZip()});
 cvvInput.addEventListener('keyup', (e) => {validateCVV()});
 cvvInput.addEventListener('focusout', (e) => {validateCVV()});
 
+// An event listener for the submitBtn - Prevents submission if one of the inputs is incorrectly completed.
 submitBtn.addEventListener('click', (e) => {
-    console.log('submitted');
     validateName();
     validateEmail();
     validateActivities();
@@ -310,7 +352,6 @@ submitBtn.addEventListener('click', (e) => {
     validateCVV();
 
     if (!isNameValid || !isEmailValid || !isActivityValid || !isCardValid || !isZipValid || !isCvvValid) {
-        console.log('prevented');
         e.preventDefault();
     }
 })
