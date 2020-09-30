@@ -141,10 +141,12 @@ function validateName () {
 }
 
 // Determines if the email address is valid and then displays the appropriate warnings if not.
+// I learned how to do this email validation from https://emailregex.com/
+// The regex will not determine if the email is valid. It just makes sure that it follows a valid format.
 function validateEmail () {
     let emailAddress = emailInput.value;
 
-    if (/[^@]+@[^@.]+\.[a-z]/i.test(emailAddress)) {
+    if (/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i.test(emailAddress)) {
         isValid(emailInput);
         isEmailValid = true;
         emailError.textContent = '';
